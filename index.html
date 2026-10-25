@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UMKM Customer Feedback & Action Plan Dashboard</title>
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            emerald: {
+              50:  '#ecfdf5', 100: '#d1fae5', 200: '#a7f3d0',
+              300: '#6ee7b7', 400: '#34d399', 500: '#10b981',
+              600: '#059669', 700: '#047857', 800: '#065f46', 900: '#064e3b'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="bg-slate-100 min-h-screen font-sans antialiased">
+
+  <!-- ===== HEADER ===== -->
+  <header class="bg-emerald-700 shadow-md">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center gap-3">
+      <div class="header-icon bg-emerald-500 rounded-lg p-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+        </svg>
+      </div>
+      <div>
+        <h1 class="text-white text-lg font-bold leading-tight">UMKM Feedback Dashboard</h1>
+        <p class="text-emerald-200 text-xs">Customer Feedback & Operational Action Plan Analyzer</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="max-w-6xl mx-auto px-4 py-8 space-y-8">
+
+    <!-- ===== SECTION 1: INPUT & CONTROL ===== -->
+    <section class="card bg-white rounded-2xl shadow p-6">
+      <h2 class="section-title text-slate-700 font-semibold text-base mb-4 flex items-center gap-2">
+        <span class="inline-block w-1 h-5 bg-emerald-500 rounded-full"></span>
+        Input Ulasan & Kontrol
+      </h2>
+
+      <!-- Preset Buttons -->
+      <div class="mb-4">
+        <p class="text-xs text-slate-500 mb-2 font-medium">Coba dengan Data Contoh:</p>
+        <div class="flex flex-wrap gap-2">
+          <button onclick="loadPreset('kuliner')" class="preset-btn btn-preset-kuliner text-xs font-medium px-3 py-1.5 rounded-lg border transition-all">
+            🍜 Contoh Ulasan Kuliner
+          </button>
+          <button onclick="loadPreset('fashion')" class="preset-btn btn-preset-fashion text-xs font-medium px-3 py-1.5 rounded-lg border transition-all">
+            👗 Contoh Ulasan Fashion
+          </button>
+          <button onclick="loadPreset('elektronik')" class="preset-btn btn-preset-elektronik text-xs font-medium px-3 py-1.5 rounded-lg border transition-all">
+            💻 Contoh Ulasan Elektronik
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+        <!-- Dropdown Sektor -->
+        <div class="md:col-span-1">
+          <label for="sectorSelect" class="block text-xs font-medium text-slate-600 mb-1">Sektor Bisnis</label>
+          <select id="sectorSelect" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition">
+            <option value="">-- Pilih Sektor --</option>
+            <option value="kuliner">🍜 Kuliner</option>
+            <option value="fashion">👗 Fashion</option>
+            <option value="elektronik">💻 Elektronik</option>
+            <option value="jasa">🛠️ Jasa</option>
+          </select>
+        </div>
+
+        <!-- Textarea Ulasan -->
+        <div class="md:col-span-2">
+          <label for="reviewInput" class="block text-xs font-medium text-slate-600 mb-1">Teks Ulasan Pelanggan</label>
+          <textarea id="reviewInput" rows="4"
+            placeholder="Tempel ulasan pelanggan dari e-commerce atau Google Maps di sini... (pisahkan setiap ulasan dengan baris baru)"
+            class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition resize-none"></textarea>
+        </div>
+      </div>
+
+      <!-- Analyze Button -->
+      <div class="mt-4 flex justify-end">
+        <button id="analyzeBtn" onclick="analyzeReviews()"
+          class="analyze-btn flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm px-5 py-2.5 rounded-xl shadow transition-all">
+          <svg id="analyzeIcon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.345.345a3.75 3.75 0 01-5.303 0l-.345-.345z" />
+          </svg>
+          <span id="analyzeBtnText">Analisis Ulasan dengan AI</span>
+          <svg id="loadingSpinner" class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+          </svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===== SECTION 2: OUTPUT (hidden until analysis runs) ===== -->
+    <section id="outputSection" class="hidden space-y-6">
+
+      <!-- KPI Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="card bg-white rounded-2xl shadow p-5 flex flex-col gap-1 border-l-4 border-emerald-500">
+          <p class="text-xs text-slate-500 font-medium uppercase tracking-wide">Total Ulasan</p>
+          <p id="kpiTotal" class="text-3xl font-bold text-slate-800">—</p>
+          <p class="text-xs text-slate-400">ulasan dianalisis</p>
+        </div>
+        <div class="card bg-white rounded-2xl shadow p-5 flex flex-col gap-1 border-l-4 border-blue-400">
+          <p class="text-xs text-slate-500 font-medium uppercase tracking-wide">Sentimen Positif</p>
+          <p id="kpiPositive" class="text-3xl font-bold text-slate-800">—</p>
+          <p class="text-xs text-slate-400">dari total ulasan</p>
+        </div>
+        <div class="card bg-white rounded-2xl shadow p-5 flex flex-col gap-1 border-l-4 border-amber-400">
+          <p class="text-xs text-slate-500 font-medium uppercase tracking-wide">Isu Utama</p>
+          <p id="kpiTopIssue" class="text-xl font-bold text-slate-800 leading-snug">—</p>
+          <p class="text-xs text-slate-400">paling banyak dikeluhkan</p>
+        </div>
+      </div>
+
+      <!-- Sentiment Bar -->
+      <div class="card bg-white rounded-2xl shadow p-6">
+        <h3 class="text-sm font-semibold text-slate-700 mb-4 flex items-center gap-2">
+          <span class="inline-block w-1 h-4 bg-emerald-500 rounded-full"></span>
+          Distribusi Sentimen
+        </h3>
+        <div class="space-y-3">
+          <div class="flex items-center gap-3">
+            <span class="text-xs text-slate-500 w-14 text-right">Positif</span>
+            <div class="flex-1 bg-slate-100 rounded-full h-4 overflow-hidden">
+              <div id="barPositive" class="h-4 bg-emerald-500 rounded-full transition-all duration-700" style="width:0%"></div>
+            </div>
+            <span id="pctPositive" class="text-xs font-bold text-emerald-600 w-10">0%</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-xs text-slate-500 w-14 text-right">Netral</span>
+            <div class="flex-1 bg-slate-100 rounded-full h-4 overflow-hidden">
+              <div id="barNeutral" class="h-4 bg-sky-400 rounded-full transition-all duration-700" style="width:0%"></div>
+            </div>
+            <span id="pctNeutral" class="text-xs font-bold text-sky-500 w-10">0%</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-xs text-slate-500 w-14 text-right">Negatif</span>
+            <div class="flex-1 bg-slate-100 rounded-full h-4 overflow-hidden">
+              <div id="barNegative" class="h-4 bg-red-400 rounded-full transition-all duration-700" style="width:0%"></div>
+            </div>
+            <span id="pctNegative" class="text-xs font-bold text-red-500 w-10">0%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Items Table -->
+      <div class="card bg-white rounded-2xl shadow p-6">
+        <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+          <h3 class="text-sm font-semibold text-slate-700 flex items-center gap-2">
+            <span class="inline-block w-1 h-4 bg-emerald-500 rounded-full"></span>
+            Tabel Action Items Operasional
+          </h3>
+          <button onclick="copyActionPlan()"
+            class="copy-btn flex items-center gap-1.5 text-xs font-medium text-emerald-700 border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-lg transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            Salin Action Plan
+          </button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wide">
+                <th class="text-left px-4 py-3 rounded-l-lg font-semibold">Kategori Isu</th>
+                <th class="text-left px-4 py-3 font-semibold">Pola Masalah</th>
+                <th class="text-left px-4 py-3 font-semibold">Rekomendasi Solusi</th>
+                <th class="text-center px-4 py-3 rounded-r-lg font-semibold">Prioritas</th>
+              </tr>
+            </thead>
+            <tbody id="actionTableBody" class="divide-y divide-slate-100">
+              <!-- Rows injected by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="text-center text-xs text-slate-400 py-6 border-t border-slate-200 mt-4">
+    UMKM Feedback Dashboard &mdash; Powered by Vanilla JS &amp; Tailwind CSS
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

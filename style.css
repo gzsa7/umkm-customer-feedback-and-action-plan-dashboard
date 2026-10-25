@@ -1,0 +1,143 @@
+/* ============================================================
+   UMKM Feedback Dashboard — Custom Stylesheet
+   Digunakan bersamaan dengan Tailwind CSS (via CDN).
+   Hanya berisi overrides & animasi yang tidak tersedia
+   langsung di kelas utilitas Tailwind.
+   ============================================================ */
+
+/* ---- Base font ---- */
+body {
+  font-family: -apple-system, "Segoe UI", system-ui, Roboto, sans-serif;
+}
+
+/* ---- Smooth scrolling ---- */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ---- Card hover lift effect ---- */
+.card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* ---- Preset Buttons ---- */
+.btn-preset-kuliner {
+  color: #b45309;
+  background-color: #fef9c3;
+  border-color: #fde68a;
+}
+.btn-preset-kuliner:hover {
+  background-color: #fef08a;
+}
+
+.btn-preset-fashion {
+  color: #7c3aed;
+  background-color: #f5f3ff;
+  border-color: #ddd6fe;
+}
+.btn-preset-fashion:hover {
+  background-color: #ede9fe;
+}
+
+.btn-preset-elektronik {
+  color: #0369a1;
+  background-color: #f0f9ff;
+  border-color: #bae6fd;
+}
+.btn-preset-elektronik:hover {
+  background-color: #e0f2fe;
+}
+
+/* ---- Analyze button active state ---- */
+.analyze-btn:active {
+  transform: scale(0.97);
+}
+.analyze-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* ---- Priority badge styles ---- */
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.badge-high {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+.badge-medium {
+  background-color: #fef9c3;
+  color: #92400e;
+}
+.badge-low {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+/* ---- Table row hover ---- */
+#actionTableBody tr {
+  transition: background-color 0.15s ease;
+}
+#actionTableBody tr:hover {
+  background-color: #f8fafc;
+}
+
+/* ---- Copy button feedback ---- */
+.copy-btn.copied {
+  background-color: #d1fae5;
+  border-color: #6ee7b7;
+  color: #065f46;
+}
+
+/* ---- Sentiment bar animation (triggered by JS adding inline width) ---- */
+#barPositive,
+#barNeutral,
+#barNegative {
+  width: 0%;
+}
+
+/* ---- Fade-in for output section ---- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-in-up {
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+/* ---- Section title accent line ---- */
+.section-title {
+  font-size: 0.95rem;
+}
+
+/* ---- Scrollbar styling (webkit) ---- */
+::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
